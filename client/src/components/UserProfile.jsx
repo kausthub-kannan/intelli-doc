@@ -1,13 +1,13 @@
 import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
-
 import { Button } from '.';
-import { userProfileData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
 import avatar from '../data/avatar.jpg';
+import { useNavigate } from 'react-router-dom';
 
-const UserProfile = () => {
+const UserProfile = (params) => {
   const { currentColor } = useStateContext();
+  const navigate = useNavigate()
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -25,26 +25,26 @@ const UserProfile = () => {
       <button type="button" >
               <img
           className="rounded-full h-24 w-24"
-          src={avatar}
+          src={(params.url?params.url:avatar)}
           alt="user-profile"
         />
             </button>
         
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200"> Michael Roberts </p>
-          <p className="text-gray-500 text-sm dark:text-gray-400">  Administrator   </p>
-          <p className="text-gray-500 text-sm font-semibold dark:text-gray-400"> info@shop.com </p>
+          <p className="font-semibold text-xl dark:text-gray-200"> {params.name} </p>
+          <p className="text-gray-500 text-sm dark:text-gray-400">  {params.age} yrs old   </p>
+          <p className="text-gray-500 text-sm font-semibold dark:text-gray-400"> {params.email} </p>
         </div>
       </div>
-      {/* <div className="mt-5"> */}
         <Button
           color="white"
           bgColor={currentColor}
           text="Logout"
           borderRadius="10px"
           width="full"
+          type="logout"
         />
-      {/* </div> */}
+        <button onClick={() => navigate('/profile/edit')}>Edit</button>
     </div>
 
   );

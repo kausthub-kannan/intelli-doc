@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { SiShopware } from 'react-icons/si';
 import { MdKeyboardArrowDown } from 'react-icons/md';
@@ -7,6 +7,8 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import avatar from '../data/avatar.jpg';
 import { UserProfile } from '.';
 import { useStateContext } from '../contexts/ContextProvider';
+import { auth } from '../firebase/auth';
+import { read_profile } from '../firebase/user_data';
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -28,6 +30,9 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
 const Navbar = () => {
   const { currentColor, activeMenu, setActiveMenu, handleClick, isClicked, setScreenSize, screenSize } = useStateContext();
+  const [id, setId] = useState()
+  const [data, setData] = useState([])
+  const [user, setUser] = useState()
 
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -39,7 +44,20 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
+    const user = auth.currentUser;
+		if(user){
+      setId(user.uid)
+      setUser(user.photoURL)
+      const response = await read_profile(id)
+      if(response){
+        console.log(response)
+        setData(response)
+        console.log(data.name)
+      }
+    }
+		if(user)
+			setId(user.uid)
     if (screenSize <= 900) {
       setActiveMenu(false);
     } else {
@@ -65,20 +83,20 @@ const Navbar = () => {
           >
             <img
               className="rounded-full w-8 h-8"
-              src={avatar}
+              src={(user?user:avatar)}
               alt="user-profile"
             />
             <p>
               <span className="text-gray-400 text-14">Hi,</span>{' '}
               <span className="text-gray-400 font-bold ml-1 text-14">
-                Michael
+                {(data.name? data.name : null)}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
         </TooltipComponent>
 
-        {isClicked.userProfile && (<UserProfile />)}
+        {isClicked.userProfile && (<UserProfile url={user} name={data.name} age={data.age} email={data.email}/>)}
       </div>
     </div>
   );

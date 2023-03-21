@@ -1,15 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { auth, google_signin, login } from "../../firebase/auth";
 
 const Login = () => {
+	const navigate = useNavigate()
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
+
+	useEffect(() =>{
+		const user = auth.currentUser;
+		if(user){
+			navigate('/reports')
+		}else
+			console.log("NULL")
+	})
+
+	const loginResponse = async (type) => {
+		if(type=='oauth'){
+			const response = await google_signin()
+			navigate('/reports')
+		}else{
+			const response = await login(data)
+			navigate('/reports')
+		}
+	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -54,8 +74,13 @@ const Login = () => {
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className={styles.green_btn}
+								onClick={()=>{loginResponse('login')}}>
 							sign In
+						</button>
+						<button type="submit" className={styles.green_btn} 
+								onClick={()=>{loginResponse('oauth')}}>
+							Google
 						</button>
 					</form>
 				</div>

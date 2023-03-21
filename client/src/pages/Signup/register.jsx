@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import { auth, google_signin, register } from "../../firebase/auth";
 
 const Signup = () => {
+	const navigate = useNavigate()
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
@@ -11,7 +13,24 @@ const Signup = () => {
 		password: "",
 	});
 	const [error, setError] = useState("");
-	const navigate = useNavigate();
+
+	useEffect(() =>{
+		const user = auth.currentUser;
+		if(user){
+			navigate('/reports')
+		}else
+			console.log("NULL")
+	})
+
+	const regResponse = async (type) => {
+		if(type=='oauth'){
+			const response = await google_signin()
+			navigate('/reports')
+		}else{
+			const response = await register(data)
+			navigate('/reports')
+		}
+	}
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -86,10 +105,15 @@ const Signup = () => {
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className={styles.green_btn}
+								onClick={()=>{regResponse('register')}}>
 							sign Up
 						</button>
 					</form>
+					<button type="submit" className={styles.green_btn}
+							onClick={()=>{regResponse('oauth')}}>
+							Google
+					</button>
 				</div>
 			</div>
 		</div>

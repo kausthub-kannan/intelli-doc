@@ -33,13 +33,13 @@ export const gridOrderImage = (props) => (
   </div>
 );
 
-export const gridOrderStatus = (props) => (
+export const gridOrderStatus = () => (
   <button
     type="button"
-    style={{ background: props.StatusBg }}
+    style={{ background: "green" }}
     className="text-white py-1 px-2 capitalize rounded-2xl text-md"
   >
-    {props.Status}
+    Download
   </button>
 );
 
@@ -373,18 +373,18 @@ export const FinancialPrimaryYAxis = {
 
 export const LinePrimaryXAxis = {
   valueType: 'DateTime',
-  labelFormat: 'y',
-  intervalType: 'Years',
+  labelFormat: 'MMM',
+  intervalType: 'Months',
   edgeLabelPlacement: 'Shift',
   majorGridLines: { width: 0 },
   background: 'white',
 };
 
 export const LinePrimaryYAxis = {
-  labelFormat: '{value}%',
+  labelFormat: '{value}',
   rangePadding: 'None',
   minimum: 0,
-  maximum: 100,
+  maximum: 200,
   interval: 20,
   lineStyle: { width: 0 },
   majorTickLines: { width: 0 },
@@ -927,15 +927,10 @@ export const ordersGrid = [
   //   width: '120',
   // },
   {
-    field: 'OrderItems',
-    headerText: 'Item',
+    field: 'date',
+    headerText: 'Date',
     width: '150',
     editType: 'dropdownedit',
-    textAlign: 'Center',
-  },
-  { field: 'CustomerName',
-    headerText: 'Customer Name',
-    width: '150',
     textAlign: 'Center',
   },
   // {
@@ -948,10 +943,11 @@ export const ordersGrid = [
   // },
   {
     headerText: 'Status',
-    template: gridOrderStatus,
-    field: 'OrderItems',
+    field: 'medical_params',
     textAlign: 'Center',
-    width: '120',
+    width: '150',
+    editType: 'dropdownedit',
+    textAlign: 'Center',
   }
   // ,
   // {

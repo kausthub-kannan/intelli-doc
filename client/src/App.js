@@ -3,10 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Ecommerce, Reports, XAi, Notes, Graphs, Signup,Login } from './pages';
+import { Reports, XAi, Notes, Graphs, Signup,Login } from './pages';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
+import Home from './pages/Home';
+import EditProfile from './pages/EditProfile';
+import EditNote from './pages/Notes/EditNote';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -64,13 +67,16 @@ const App = () => {
 
               <Routes>
                 {/* dashboard  */}
-                <Route path="/" element={(<Ecommerce />)} />
+                <Route path="/" element={(<Home />)} />
                 <Route path="/login" element={(<Login />)} />
                 <Route path="/signup" element={(<Signup />)} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/xai" element={<XAi />} />
                 <Route path="/notes" element={<Notes />} />
                 <Route path="/graphs" element={<Graphs />} />
+                <Route path="/note/edit" element={<EditNote type="Edit"/>} />
+                <Route path="/note/add" element={<EditNote type="Add"/>} />
+                <Route path="/profile/edit" element={<EditProfile />} />
 
               </Routes>
             </div>
