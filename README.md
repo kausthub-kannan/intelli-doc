@@ -8,11 +8,12 @@ IntelliDoc is web application to manage all medical reports of the user and prov
 3. Pnemonia detction made with CNN
 
 ## Webapp Stack:
-Frontend - ReactJS
-Database - Firebase
-SSR - Next.js
+Frontend - ReactJS  
+Database - Firebase  
+SSR - Next.js  
 
 ## Model
 Dataset - Kaggle  
 Transfer learning Model - Tensorflow Hub  
+Hosting - Heroku + FastAPI
 
