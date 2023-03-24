@@ -17,3 +17,7 @@ Dataset - Kaggle
 Transfer learning Model - Tensorflow Hub  
 Hosting - Heroku + FastAPI
 
+##Contributors  
+Kausthub Kannan - Owner & Maintenance  (APIs, ReactJS, CNN Model)
+Rahul Rudra - Contributor  (ReactJS)
+Abhinav Naman - Contributor  (ReactJS)
