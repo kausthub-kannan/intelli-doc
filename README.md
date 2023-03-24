@@ -13,6 +13,6 @@ Database - Firebase
 SSR - Next.js
 
 ## Model
-Dataset - Kaggle
-Transfer learning Model - Tensorflow Hub
+Dataset - Kaggle  
+Transfer learning Model - Tensorflow Hub  
 
